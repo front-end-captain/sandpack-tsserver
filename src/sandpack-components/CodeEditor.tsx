@@ -13,11 +13,13 @@ export const CodeEditor: React.FC<{ activePath?: string }> = memo(
     );
     const emitter = useRef(new EventEmitter());
     const { sandpack } = useSandpack();
+    // console.log(sandpack)
 
     useEffect(function listener() {
       const serverMessageCallback = ({
         data: { event, details },
       }: MessageEvent<{ event: string; details: any }>) => {
+        console.log('emit', event, details)
         emitter.current.emit(event, details);
       };
 
@@ -43,13 +45,15 @@ export const CodeEditor: React.FC<{ activePath?: string }> = memo(
           return cache;
         };
 
+        const details = {
+          files: sandpack.files,
+          entry: sandpack.activePath,
+          fsMapCached: getTypescriptCache(),
+        };
+        console.log("details", details);
         tsServer.current.postMessage({
           event: "create-system",
-          details: {
-            files: sandpack.files,
-            entry: sandpack.activePath,
-            fsMapCached: getTypescriptCache(),
-          },
+          details,
         });
       });
 

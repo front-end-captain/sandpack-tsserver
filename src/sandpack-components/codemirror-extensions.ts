@@ -20,10 +20,12 @@ export const codemirrorTypescriptExtensions = (
 ) => [
   EditorView.updateListener.of(
     debounce((update: ViewUpdate) => {
+      console.log(update.state)
       tsServer.postMessage({
         event: "updateText",
         details: {
           filePath,
+          // @ts-ignore
           content: update.state.doc.text.join("\n"),
         },
       });
@@ -79,6 +81,8 @@ export const codemirrorTypescriptExtensions = (
 
   hoverTooltip(
     async (_: EditorView, pos: number): Promise<Tooltip | null> => {
+        // console.log("pos", pos);
+        // console.log("filePath", filePath);
       tsServer.postMessage({
         event: "tooltip-request",
         details: { pos, filePath },

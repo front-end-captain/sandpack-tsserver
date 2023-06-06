@@ -22,7 +22,7 @@
     "typescript": "4.4.2"
   },
   "scripts": {
-    "start": "TSC_COMPILE_ON_ERROR=true react-scripts start",
+    "start": "TSC_COMPILE_ON_ERROR=true GENERATE_SOURCEMAP=false react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
